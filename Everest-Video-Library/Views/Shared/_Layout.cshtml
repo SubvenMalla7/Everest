@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css")
+    @Styles.Render("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+    @Styles.Render("https://www.w3schools.com/w3css/4/w3.cs")
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Site.css")
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("https://www.w3schools.com/lib/w3.js")
+    
+
+</head>
+<body>
+    <!-- Use any element to open the sidenav -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
+        <span onclick=openNav() class="glyphicon glyphicon-th-list text-muted" style="cursor:pointer; font-size:30px"> </span>
+        <span class="navbar-brand"><a href="/">Everest Video Library</a></span>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <a href="/Categories">Categories </a>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <a href="/Albums">Albums </a>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <a href="/Dvds">DVDs </a>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <a href="/Studios">Studios </a>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <a href="/Artists">Artists </a>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <a href="/ArtistAlbums">Artists and Albums </a>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <a href="/Producers">Producers </a>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <a href="/Members">Members </a>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <a href="/MemberCategories">Member Categories </a>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <a href="/Loans">Loans </a>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <a href="/Admin">Admin </a>
+            </ul>
+            <div style="width:25px">
+
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   Profile
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    @Html.Partial("_LoginPartial")
+
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+    <div id="main" class="container-fluid">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Everest Video Library</p>
+        </footer>
+    </div>
+
+    <script>
+        /* Set the width of the side navigation to 250px */
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        /* Set the width of the side navigation to 0 */
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js")
+    @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

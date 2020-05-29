@@ -1,0 +1,142 @@
+﻿@model IEnumerable<Everest_Video_Library.Models.VideoLibrary.Album>
+
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<p><button class="btn btn-dark text-light m-auto" onclick="sortTable()">Sort By Name</button></p>
+
+
+
+
+<table class="table" id="myTable" >
+    <thead>
+        <tr>
+            <th class="th-sm">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="th-sm">
+                Category Name
+            </th>
+            <th class="th-sm">
+                Producer Name
+            </th>
+            <th class="th-sm">
+                Studio Name
+            </th>
+            <th class="th-sm">
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </th>
+            <th class="th-sm">
+                @Html.DisplayNameFor(model => model.NoOfCopies)
+            </th>
+            <th class="th-sm">
+                @Html.DisplayNameFor(model => model.Length)
+            </th>
+            <th class="th-sm">
+                @Html.DisplayNameFor(model => model.NoOfStock)
+            </th>
+            <th class="th-sm">
+                @Html.DisplayNameFor(model => model.CoverImagePath)
+            </th>
+            <th class="th-sm">
+                @Html.DisplayNameFor(model => model.AgeContent)
+            </th>
+            <th class="th-sm">
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+
+            <th class="th-sm"></th>
+        </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Catagory.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producer.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Studio.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfCopies)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Length)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfStock)
+                </td>
+                <td>
+                    <img src="/@item.CoverImagePath" alt="@item.Name" style="height:200px; width:200px" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AgeContent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-dark" })
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-dark my-3" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-dark " })
+                </td>
+            </tr>
+        }
+
+</table>
+<script>
+function sortTable() {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("myTable");
+  switching = true;
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[0];
+      y = rows[i + 1].getElementsByTagName("TD")[0];
+      //check if the two rows should switch place:
+      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        //if so, mark as a switch and break the loop:
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+</script>
+

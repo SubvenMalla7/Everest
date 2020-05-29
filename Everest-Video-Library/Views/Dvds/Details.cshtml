@@ -1,0 +1,72 @@
+﻿@model Everest_Video_Library.Models.Dvd
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Dvd</h4>
+    <hr />
+    <div class="col-12 d-flex justify-content-center" >
+        <img  src="/@Model.Album.CoverImagePath" style="height:400px;width:400px;" />
+
+    </div>
+           <h2 class="text-center"> @Html.DisplayFor(model=>model.Album.Name) </h2>
+           <dl class="dl-horizontal">
+
+
+               <dt>
+                   @Html.DisplayNameFor(model => model.OnStock)
+               </dt>
+
+               <dd>
+                   @Html.DisplayFor(model => model.OnStock)
+               </dd>
+
+           </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<table class="table table-striped" >
+    <thead>
+        <tr>
+            <td>
+                Member Id
+            </td>
+            <td>
+                Member Name
+            </td>
+            <td>
+                Dvd Id
+            </td>
+            <td>
+                Album Name
+            </td>
+            <td>
+                Date Out
+            </td>
+            <td>
+                Returned Date
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var loan in Model.Loans)
+        {
+            <tr>
+                <td> @loan.Members.Id</td>
+                <td>@loan.Members.FirstName @loan.Members.LastName</td>
+                <td>@loan.DvdId</td>
+                <td>@loan.Dvds.Album.Name</td>
+                <td>@loan.LoanDate</td>
+                <td>@loan.ReturnDate</td>
+            </tr>
+
+        }
+    </tbody>
+</table>

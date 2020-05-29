@@ -1,0 +1,203 @@
+﻿@model Everest_Video_Library.Models.VideoLibrary.Member
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Member</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Catagory.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Catagory.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+    </dl>
+
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>DVD Id</td>>
+            <td>
+                Album Name
+            </td>
+            <td> Loan Date </td>
+            <td>
+                Return Date
+            </td>
+            <td>
+                Returned Date
+            </td>
+            <td>
+                Fine
+            </td>
+            <td>
+                Return Dvd
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var loan in Model.Loans)
+        {
+            <tr>
+                <td> @loan.DvdId</td>
+
+                <td>
+                    @loan.Dvds.Album.Name
+                </td>
+                <td>
+                    @loan.LoanDate
+                </td>
+                <td>
+                    @loan.ReturnDate
+                </td>
+                <td>
+                    @if (loan.ReturnedDate == null)
+                    {
+                        <span> Not Returned</span>
+                    }
+                    else
+                    {
+                        <span>@loan.ReturnedDate</span>
+                    }
+                </td>
+                @functions{
+                    public int Difference(DateTime ReturnDate, DateTime LoanDate)
+                    {
+                        //DateTime difference = ReturnDate - LoanDate;
+                        String diff2 = (ReturnDate - LoanDate).TotalDays.ToString();
+                        return int.Parse(diff2);
+
+                    }
+                }
+                @if (Difference(loan.ReturnDate, loan.LoanDate) >=31)
+                {
+                    <td>
+                        Yes
+                    </td>
+                }
+
+
+                <td>
+                    <a class="btn btn-success text-light" href="/lones/return/?dvd=@loan.DvdId&member=@loan.MemberId">Return Dvd</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+<div style="height:20px"></div>
+<h1>Loaned Albums in Last 31 Days</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+           
+            <td>
+                Album Name
+            </td>
+            <td> Loan Date </td>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var loan in Model.Loans)
+        {
+        <tr>
+
+
+          
+
+
+            @functions{
+                public int Differences()
+                {
+                    //DateTime difference = ReturnDate - LoanDate;
+                    String diff2 = (DateTime.Today.AddDays(-31)).ToString();
+                    return int.Parse(diff2);
+
+
+
+                }
+            }
+            @if (int.Parse((loan.LoanDate).ToString()) >= Differences())
+            {
+
+                <td>
+                    @loan.Dvds.Album.Name
+                </td>
+                <td>
+                    @loan.LoanDate
+                </td>
+            }
+
+
+            <td>
+                <a class="btn btn-success text-light" href="/lones/return/?dvd=@loan.DvdId&member=@loan.MemberId">Return Dvd</a>
+            </td>
+        </tr>
+        }
+
+    </tbody>
+
+</table>
