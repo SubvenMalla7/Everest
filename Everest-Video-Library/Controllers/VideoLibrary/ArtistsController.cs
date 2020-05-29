@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Everest_Video_Library.Controllers.VideoLibrary
 {
-    [AuthLog(Roles = "Manager")]
+    [AuthLog(Roles = "Manager,Assistant")]
 
 
     public class ArtistsController : Controller

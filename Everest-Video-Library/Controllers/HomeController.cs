@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Everest_Video_Library.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("Home")]
     public class HomeController : Controller
     {

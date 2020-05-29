@@ -1,7 +1,7 @@
-﻿@model IEnumerable<Everest_Video_Library.Models.VideoLibrary.Lone>
+﻿@model IEnumerable<Everest_Video_Library.Models.VideoLibrary.Loan>
 
 @{
-    ViewBag.Title = "OnLone";
+    ViewBag.Title = "OnLoan";
 }
 
 <h2>OnLone</h2>
@@ -21,7 +21,7 @@
             Album Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LoneDate)
+            @Html.DisplayNameFor(model => model.LoanDate)
         </th>
 
         <th>
@@ -48,7 +48,7 @@
             @Html.DisplayFor(modelItem =>item.Dvds.Album.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.LoneDate)
+            @Html.DisplayFor(modelItem => item.LoanDate)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ReturnDate)

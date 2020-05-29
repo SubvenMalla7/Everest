@@ -38,14 +38,12 @@
             @Html.DisplayNameFor(model => model.Gender)
         </th>
         <th>
-            All lone
+            All Loan
         </th>
         <th>
-            Present Lone
+            Present Loan
         </th>
-        <th>
-            Message
-        </th>
+        
         <th></th>
     </tr>
 
@@ -81,10 +79,10 @@
     </td>
     <td>
         @{
-            int noOfDvdCanLone = item.Catagory.NoOfDvdRent;
-            if (noOfDvdCanLone < item.Loans.Where(x => x.ReturnedDate == null).Count())
+            int noOfDvdCanLoan = item.Catagory.NoOfDvdRent;
+            if (noOfDvdCanLoan < item.Loans.Where(x => x.ReturnedDate == null).Count())
             {
-                <span>Too many dvd on lone</span>
+                <span>Too many dvd on loan</span>
             }
         }
     </td>

@@ -130,16 +130,15 @@
 
                     }
                 }
-                @if (Difference(loan.ReturnDate, loan.LoanDate) >=31)
-                {
-                    <td>
-                        Yes
-                    </td>
-                }
+               
+            <td>
+                <span>@loan.FineAmount</span>
+            </td>
+                
 
 
                 <td>
-                    <a class="btn btn-success text-light" href="/lones/return/?dvd=@loan.DvdId&member=@loan.MemberId">Return Dvd</a>
+                    <a class="btn btn-success text-light" href="/loans/return/?dvd=@loan.DvdId&member=@loan.MemberId">Return Dvd</a>
                 </td>
             </tr>
         }
@@ -148,56 +147,3 @@
 
 </table>
 <div style="height:20px"></div>
-<h1>Loaned Albums in Last 31 Days</h1>
-<table class="table table-striped">
-    <thead>
-        <tr>
-           
-            <td>
-                Album Name
-            </td>
-            <td> Loan Date </td>
-           
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var loan in Model.Loans)
-        {
-        <tr>
-
-
-          
-
-
-            @functions{
-                public int Differences()
-                {
-                    //DateTime difference = ReturnDate - LoanDate;
-                    String diff2 = (DateTime.Today.AddDays(-31)).ToString();
-                    return int.Parse(diff2);
-
-
-
-                }
-            }
-            @if (int.Parse((loan.LoanDate).ToString()) >= Differences())
-            {
-
-                <td>
-                    @loan.Dvds.Album.Name
-                </td>
-                <td>
-                    @loan.LoanDate
-                </td>
-            }
-
-
-            <td>
-                <a class="btn btn-success text-light" href="/lones/return/?dvd=@loan.DvdId&member=@loan.MemberId">Return Dvd</a>
-            </td>
-        </tr>
-        }
-
-    </tbody>
-
-</table>

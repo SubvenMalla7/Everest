@@ -12,7 +12,8 @@ using Everest_Video_Library.Models.VideoLibrary;
 
 namespace Everest_Video_Library.Controllers.VideoLibrary
 {
-    [AuthLog(Roles = "Manager")]
+ 
+    [AuthLog(Roles = "Manager,Assistant")]
     public class LoansController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -44,10 +45,10 @@ namespace Everest_Video_Library.Controllers.VideoLibrary
         {
             ViewBag.Error = Request.Cookies["Error"] != null ? Request.Cookies["Error"].Value : null;
             ViewBag.Success = Request.Cookies["Success"] != null ? Request.Cookies["Success"].Value : null;
-            HttpCookie cokie = new HttpCookie("Error");
-            cokie["Error"] = null;
-            cokie["Success"] = null;
-            Response.Cookies.Add(cokie);
+            HttpCookie cookie = new HttpCookie("Error");
+            cookie["Error"] = null;
+            cookie["Success"] = null;
+            Response.Cookies.Add(cookie);
             AddLoan loan = new AddLoan
             {
                 Albums = db.Albums.ToList(),
@@ -65,7 +66,7 @@ namespace Everest_Video_Library.Controllers.VideoLibrary
         [Obsolete]
         public ActionResult Create(int MemberId, int AlbumId)
         {
-            HttpCookie cokie = new HttpCookie("Error");
+            HttpCookie cookie = new HttpCookie("Error");
 
             if (ModelState.IsValid)
             {
@@ -77,15 +78,15 @@ namespace Everest_Video_Library.Controllers.VideoLibrary
 
                 if (album.AgeContent & memberAge < 18)
                 {
-                    cokie["Error"] = "Age must be 18+ to view this content";
-                    Response.Cookies.Add(cokie);
+                    cookie["Error"] = "Age must be 18+ to view this content";
+                    Response.Cookies.Add(cookie);
 
                     return RedirectToAction("Create");
                 }
                 if (album.NoOfStock < 1)
                 {
-                    cokie["Error"] = "Sorry! we dont have stock";
-                    Response.Cookies.Add(cokie);
+                    cookie["Error"] = "Sorry! we dont have stock";
+                    Response.Cookies.Add(cookie);
 
                     return RedirectToAction("Create");
 
@@ -102,17 +103,17 @@ namespace Everest_Video_Library.Controllers.VideoLibrary
                             }).ToList();
 
 
-                int noOfDvdsMemberCanLone = member.Catagory.NoOfDvdRent;
-                int noOfDaysMemberCanLone = member.Catagory.LoanDays;
+                int noOfDvdsMemberCanLoan = member.Catagory.NoOfDvdRent;
+                int noOfDaysMemberCanLoan = member.Catagory.LoanDays;
                 var count = loan.Count();
 
-                if (noOfDvdsMemberCanLone <= loan.Count)
+                if (noOfDvdsMemberCanLoan <= loan.Count)
                 {
-                    cokie["Error"] = "Return Dvd first to take loan!";
-                    Response.Cookies.Add(cokie);
+                    cookie["Error"] = "Return Dvd first to take loan!";
+                    Response.Cookies.Add(cookie);
 
 
-                    return RedirectToAction("Create");
+                    return RedirectToAction("Index");
                 }
 
                 Dvd dvd =
@@ -130,14 +131,14 @@ namespace Everest_Video_Library.Controllers.VideoLibrary
                 album.NoOfStock -= album.NoOfStock;
                 db.Loans.Add(newLoan);
                 db.SaveChanges();
-                cokie["Success"] = "Sucessfully loned";
-                Response.Cookies.Add(cokie);
+                cookie["Success"] = "Sucessfully Loaned";
+                Response.Cookies.Add(cookie);
                 return RedirectToAction("Create");
 
             }
 
-            cokie["Error"] = "Not Valid Input";
-            Response.Cookies.Add(cokie);
+            cookie["Error"] = "Not Valid Input";
+            Response.Cookies.Add(cookie);
 
             return RedirectToAction("Create");
 
@@ -161,12 +162,12 @@ namespace Everest_Video_Library.Controllers.VideoLibrary
             return View(loan);
         }
 
-        // POST: Loans/Edit/5
+        // PUT: Loans/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,MemberId,DvdId")] Loan loan)
+        public ActionResult Edit([Bind(Include = "Id,MemberId,DvdId,LoanDate")] Loan loan)
         {
             if (ModelState.IsValid)
             {
@@ -175,6 +176,7 @@ namespace Everest_Video_Library.Controllers.VideoLibrary
                 return RedirectToAction("Index");
             }
             ViewBag.DvdId = new SelectList(db.Dvds, "Id", "Id", loan.DvdId);
+            
             ViewBag.MemberId = new SelectList(db.Members, "Id", "FirstName", loan.MemberId);
             return View(loan);
         }
@@ -187,20 +189,21 @@ namespace Everest_Video_Library.Controllers.VideoLibrary
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var Albumdvd = db.Dvds.FirstOrDefault(X => X.Id == id);
-            Albumdvd.OnStock = true;
+            //Albumdvd.OnStock = true;
             var loan = db.Loans.FirstOrDefault(X => X.DvdId == id);
             loan.ReturnedDate = DateTime.Today;
             if (DateTime.Today > loan.ReturnDate)
             {
                 int daysMore = (DateTime.Today - (DateTime)loan.ReturnDate).Days;
 
-                decimal finrPerday = loan.Members.Catagory.FinePerDays;
-                loan.FineAmount = finrPerday * daysMore;
+                decimal finePerday = loan.Members.Catagory.FinePerDays;
+                loan.FineAmount = finePerday * daysMore;
             }
             var album = db.Albums.FirstOrDefault(X => X.Id == loan.Dvds.AlbumId);
             album.NoOfStock += 1;
+            db.Loans.Remove(loan);
             db.SaveChanges();
-            return Redirect("/Members");
+            return Redirect("/Loans");
         }
 
         // POST: Loans/Delete/5
@@ -220,13 +223,16 @@ namespace Everest_Video_Library.Controllers.VideoLibrary
             {
                 int daysMore = (DateTime.Today - (DateTime)loan.ReturnDate).Days;
 
-                decimal finrPerday = loan.Members.Catagory.FinePerDays;
-                loan.FineAmount = finrPerday * daysMore;
+                decimal finePerday = loan.Members.Catagory.FinePerDays;
+                loan.FineAmount = finePerday * daysMore;
             }
             var album = db.Albums.FirstOrDefault(X => X.Id == loan.Dvds.AlbumId);
             album.NoOfStock += 1;
+           
+            db.Loans.Remove(loan);
+            
             db.SaveChanges();
-            return Redirect("/Members");
+            return Redirect("/Loans");
            
         }
 
@@ -252,10 +258,10 @@ namespace Everest_Video_Library.Controllers.VideoLibrary
             var album = db.Albums.FirstOrDefault(X => X.Id == loan.Dvds.AlbumId);
             album.NoOfStock += 1;
             db.SaveChanges();
-            return Redirect("/Members");
+            return Redirect("/");
         }
         
-        public ActionResult LatestLone()
+        public ActionResult LatestLoan()
         {
             var dayBefore = DateTime.Today.AddDays(-31);
             var loans = db.Loans.Where(X => X.LoanDate > dayBefore).ToList();

@@ -16,7 +16,7 @@ namespace Everest_Video_Library.Controllers.VideoLibrary
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Albums
-       [AuthLog(Roles ="Manager")]
+        [AuthLog(Roles = "Manager,Assistant")]
         public ActionResult Index()
         {
 

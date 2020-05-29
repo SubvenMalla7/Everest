@@ -318,7 +318,7 @@
     <Content Include="Views\Loans\Create.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Albums\Old.cshtml" />
-    <Content Include="Views\Dvds\OnLone.cshtml" />
+    <Content Include="Views\Dvds\OnLoan.cshtml" />
     <Content Include="Views\Members\NotBorrowed.cshtml" />
     <Content Include="Views\RoleMasters\Create.cshtml" />
     <Content Include="Views\RoleMasters\Delete.cshtml" />
@@ -326,7 +326,7 @@
     <Content Include="Views\RoleMasters\Edit.cshtml" />
     <Content Include="Views\RoleMasters\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Dvds\OnLoneDate.cshtml" />
+    <Content Include="Views\Dvds\OnLoanDate.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\Shared\View.cshtml" />

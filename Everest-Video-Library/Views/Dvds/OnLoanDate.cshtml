@@ -1,8 +1,8 @@
-﻿@model IEnumerable<Everest_Video_Library.Models.VideoLibrary.Lone>
+﻿@model IEnumerable<Everest_Video_Library.Models.VideoLibrary.Loan>
 
 
 @{
-    ViewBag.Title = "OnLoneDate";
+    ViewBag.Title = "OnLoanDate";
 }
 
 
@@ -14,10 +14,10 @@
         <div>
             @album.Key;
         </div>
-        var lone = album.ToList().GroupBy(X => X.LoneDate);
-        foreach(var i in lone)
+        var loan = album.ToList().GroupBy(X => X.LoanDate);
+        foreach(var i in loan)
         {
-            <h4>
+            <h4>s
                 @i.Key
             </h4>
             <ul>
@@ -34,5 +34,5 @@
 
 
 
-<h2>OnLoneDate</h2>
+<h2>On LoanDate</h2>
 

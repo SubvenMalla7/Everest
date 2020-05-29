@@ -11,7 +11,7 @@ using Everest_Video_Library.Models.VideoLibrary;
 
 namespace Everest_Video_Library.Controllers.VideoLibrary
 {
-    [AuthLog(Roles = "Manager")]
+    [AuthLog(Roles = "Manager,Assistant")]
 
 
     public class ArtistAlbumsController : Controller
